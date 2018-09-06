@@ -1,4 +1,5 @@
 (ns fdsls.core
+  (:gen-class)
   (:require [clojure.string :as cljstr]))
 
 (defn run-dsl [context accumulator body]
@@ -113,6 +114,10 @@
                          (variable "boolean" "_isDirty"))
                         (static
                          (variable "int" "INSTANCE_COUNTER"))))))
+
+(defn -main [& args]
+  )
+
 (comment
   (do
     
