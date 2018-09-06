@@ -88,13 +88,11 @@ JavaDslFun indentMore(JavaBody body) {
 }
 
 JavaDslFun block(JavaBody body) {
-  return [=](JavaSrcContext c, std::string acc) {
-    return runDsl(c, acc, {
-        outputLine(false, {" {"}),
-        indentMore({group(body)}),
-        outputLine(true, {"}"})
-      });
-  };
+  return group<JavaSrcContext, std::string>({
+    outputLine(false, {" {"}),
+    indentMore({group(body)}),
+    outputLine(true, {"}"})
+  });
 }
 
 JavaDslFun namedClass(const std::string& name, JavaBody body) {

@@ -56,12 +56,9 @@
 ;; (run-dsl java-src-context "" (indent-more (output-line true "Mjao")))
 
 (defn block [& body]
-  (fn [context accumulator]
-    (run-dsl context
-             accumulator
-             [(output-line false " {")
-              (indent-more body)
-              (output-line true "}")])))
+  [(output-line false " {")
+   (indent-more body)
+   (output-line true "}")])
 
 (defn named-class [name & body]
   (fn [context accumulator]
