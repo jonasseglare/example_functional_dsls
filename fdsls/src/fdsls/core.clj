@@ -1,6 +1,5 @@
 (ns fdsls.core
-  (:require [clojure.string :as cljstr]
-            [clojure.pprint :as pp]))
+  (:require [clojure.string :as cljstr]))
 
 (defn run-dsl [context accumulator body]
   (cond
@@ -14,27 +13,39 @@
 ;;;  Sample DSL for Java source code generation
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; C-c M-p
+
+
+;;;------- Initial structures -------
 (def java-src-context {:visibility :public
                        :static? false
                        :new-line-prefix "\n"})
 
+(def java-src-accumulator "")
+
+
+
 (defn visibility-str [ctx]
   (-> ctx :visibility name))
+
+;; (visibility-str (merge java-src-context {:visibility :public}))
 
 (defn static-str [ctx]
   (if (:static? ctx)
     "static" ""))
 
-(def java-src-accumulator "")
+;; (static-str (merge java-src-context {:static? true}))
 
 (defn output-line [new? & parts]
-  (pp/pprint parts)
   (fn [context accumulator]
     (str accumulator
          (if new?
            (:new-line-prefix context)
            "")
          (cljstr/join " " (filter (complement empty?) parts)))))
+
+;; (run-dsl (merge java-src-context {:new-line-prefix "\n  "}) "" (output-line true "Mjao"))
 
 (defn indent-more [& body]
   (fn [context accumulator]
