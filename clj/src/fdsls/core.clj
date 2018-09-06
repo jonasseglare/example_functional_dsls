@@ -44,7 +44,7 @@
          (if new?
            (:new-line-prefix context)
            "")
-         (cljstr/join " " (filter (complement empty?) parts)))))
+         (clojure.string/join " " (filter (complement empty?) parts)))))
 
 ;; (run-dsl (merge java-src-context {:new-line-prefix "\n  "}) "" (output-line true "Mjao"))
 
@@ -52,6 +52,8 @@
   (fn [context accumulator]
     (run-dsl (update context :new-line-prefix #(str % "  "))
              accumulator body)))
+
+;; (run-dsl java-src-context "" (indent-more (output-line true "Mjao")))
 
 (defn block [& body]
   (fn [context accumulator]
@@ -92,16 +94,11 @@
               (static-str context)
               type name ";"))))
 
-
-
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;  Samples
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (println (str "\nThe source code is\n"
               (run-dsl java-src-context
                        java-src-accumulator
@@ -118,7 +115,56 @@
 (defn -main [& args]
   )
 
+
+
+
+
+
+
+
+
+(def public-vars
+  [(variable "double" "sum")
+   (variable "double" "sumSquares")
+   (variable "int" "count")])
+
+(def the-class (named-class
+                "Kattskit"
+                public-vars
+                (private
+                 (variable "boolean" "_isDirty"))
+                (static
+                 (variable "int" "INSTANCE_COUNTER"))))
+
+(run-dsl java-src-context
+         java-src-accumulator
+         the-class)
+
+
+
 (comment
+  (do
+
+    (def public-vars
+      [(variable "double" "sum")
+       (variable "double" "sumSquares")
+       (variable "int" "count")])
+
+    (def the-class (named-class
+                    "Kattskit"
+                    public-vars
+                    (private
+                     (variable "boolean" "_isDirty"))
+                    (static
+                     (variable "int" "INSTANCE_COUNTER"))))
+    
+    (println (str  "Broken up\n" (run-dsl java-src-context
+                                          java-src-accumulator
+                                          the-class)))
+
+    )
+
+  
   (do
     
 

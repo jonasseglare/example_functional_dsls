@@ -144,6 +144,7 @@ int main() {
   });
 
   std::cout << "The source code is\n" 
-            << runDsl(JavaSrcContext(), std::string(""), {code}) << std::endl;
+            << runDsl(JavaSrcContext(), 
+                 std::string(""), {code}) << std::endl;
   return 0;
 }
