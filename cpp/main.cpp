@@ -42,7 +42,7 @@ struct JavaSrcContext {
     Public, Private
   };
   
-  Visibility visibility;
+  Visibility visibility = Public;
   bool isStatic = false;
   std::string newLinePrefix = "\n";
 
